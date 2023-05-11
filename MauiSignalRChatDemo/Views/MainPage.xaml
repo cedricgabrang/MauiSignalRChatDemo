@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MauiSignalRChatDemo.MainPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:viewModels="clr-namespace:MauiSignalRChatDemo.ViewModels"
+    x:DataType="viewModels:MainPageViewModel">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <toolkit:InvertedBoolConverter x:Key="InvertedBoolConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid
+        Padding="15"
+        ColumnDefinitions="Auto, *"
+        ColumnSpacing="5"
+        RowDefinitions="Auto, Auto, Auto, *, Auto"
+        RowSpacing="5">
+        <Label Text="User:" VerticalOptions="Center" />
+        <Entry
+            Grid.Column="1"
+            IsEnabled="{Binding IsConnected}"
+            Text="{Binding Name}"
+            VerticalOptions="Center" />
+
+        <Label
+            Grid.Row="1"
+            Text="Message:"
+            VerticalOptions="Center" />
+        <Entry
+            Grid.Row="1"
+            Grid.Column="1"
+            IsEnabled="{Binding IsConnected}"
+            Text="{Binding Message}"
+            VerticalOptions="Center" />
+
+        <Button
+            Grid.Row="2"
+            Grid.Column="1"
+            Command="{Binding SendMessageCommand}"
+            HorizontalOptions="End"
+            IsEnabled="{Binding IsConnected}"
+            Text="Send"
+            WidthRequest="75" />
+
+        <ListView
+            Grid.Row="3"
+            Grid.ColumnSpan="2"
+            Margin="0,15,0,0"
+            HasUnevenRows="True"
+            ItemsSource="{Binding Messages}"
+            SeparatorVisibility="None">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Label Text="{Binding .}" />
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <HorizontalStackLayout
+            Grid.Row="4"
+            Grid.ColumnSpan="2"
+            HorizontalOptions="Center"
+            Spacing="5">
+            <Button Command="{Binding ConnectCommand}" Text="Connect" />
+
+            <Button
+                BackgroundColor="Red"
+                Command="{Binding DisconnectCommand}"
+                Text="Disconnect" />
+        </HorizontalStackLayout>
+
+    </Grid>
+</ContentPage>
